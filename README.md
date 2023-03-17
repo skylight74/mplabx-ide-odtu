@@ -1,95 +1,63 @@
-# MPLAB X IDE Docker Container
+# MPLAB and PICSimLab with Docker
 
-This repository contains a Dockerfile to create a Docker container with MPLAB X IDE v5.45 and XC8 Compiler v2.30 installed.
+This repository contains Dockerfiles for MPLAB X IDE and PICSimLab. It uses tty0tty to connect the two applications via virtual serial ports.
 
 ## Prerequisites
 
-1. Install Docker on your system. Follow the [official installation guide](https://docs.docker.com/engine/install/) for your operating system.
+1. Install Docker on your machine: https://docs.docker.com/engine/install/
+2. Install Docker Compose: https://docs.docker.com/compose/install/
 
-### Linux
+## Installation
 
-2. Install the `x11-xserver-utils` package on your host machine:
+### tty0tty
 
-``` sudo apt-get install x11-xserver-utils ```
+Before running MPLAB X IDE and PICSimLab containers, you need to install tty0tty on your host machine to enable serial communication between the two containers.
 
-### Windows
+1. Clone the tty0tty repository:
 
-1. Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/) or another X server application for Windows.
+```git clone https://github.com/freemed/tty0tty.git```
 
-2. Launch VcXsrv with the "Multiple Windows" display setting.
+2. Follow the installation instructions for your specific OS in the `tty0tty/README.md` file.
 
-#### Getting the DISPLAY variable
+3. Add your user to the dialout group:
 
-1. Open a Command Prompt or PowerShell window.
-
-2. Determine your computer's IP address. In the Command Prompt or PowerShell window, type the following command:
-
-```ipconfig```
-
-3. Look for the "IPv4 Address" field under your active network adapter. Note the IP address (e.g., `192.168.1.100`).
-
-4. Set your DISPLAY variable by combining your IP address with `:0.0`. For example:
-
-``` set DISPLAY= 192.168.1.100:0.0 ```
-
-Use this value for `<your_display_variable>` when running the Docker container.
-
-### macOS
-
-1. Install [XQuartz](https://www.xquartz.org/) or another X server application for macOS.
-
-#### Getting the DISPLAY variable
-
-1. Launch XQuartz.
-
-2. Open a Terminal window.
-
-3. Run the following command to get your DISPLAY variable:
-
-```echo $DISPLAY```
-
-This command will output your DISPLAY variable (e.g., `/private/tmp/com.apple.launchd.12345/org.macosforge.xquartz:0`).
-
-Use this value for `<your_display_variable>` when running the Docker container.
+```sudo usermod -a -G dialout $USER```
 
 
-## Building the Docker Image
+Log out and log back in for the changes to take effect.
 
-1. Clone this repository and navigate to the directory containing the Dockerfile.
+### Building and Running Containers
 
-2. Build the Docker image:
+1. Clone this repository:
 
-```docker build -t mplabx-ide .```
+```git clone <https://github.com/mohamed9974/mplabx-ide-odtu.git>
+    cd mplabx-ide-odtu```
 
-## Running the Docker Container
+2. Build the Docker images:
 
-### Linux
+```docker-compose build```
 
-1. Allow connections to your X server from local Docker containers:
+3. Run the containers using Docker Compose:
 
-``` xhost +local:docker ```
+```docker-compose up```
 
-2. Run the Docker container and share the necessary resources for the graphical interface to work:
+MPLAB X IDE and PICSimLab should now be running in separate containers, connected via virtual serial ports using tty0tty.
 
-```docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide```
+## Usage
 
-### Windows
+1. Open MPLAB X IDE and create or load a project.
+2. Compile the project to generate a HEX file.
+3. Open PICSimLab and load the HEX file to simulate the microcontroller.
+4. Connect the virtual serial ports in MPLAB X IDE and PICSimLab to enable serial communication between the two applications.
 
-1. Run the Docker container and share the necessary resources for the graphical interface to work. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
+Enjoy your development and simulation environment!
 
-```docker run -it --rm -e DISPLAY=<your_display_variable> mplabx-ide```
+## Contributing
 
-### macOS
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-1. Allow connections to your X server from the Docker container. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
+Please make sure to update the documentation as appropriate.
 
-```xhost +$(hostname)```
+## License
 
-2. Run the Docker container and share the necessary resources for the graphical interface to work. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
-
-```docker run -it --rm -e DISPLAY=<your_display_variable> -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide```
-
-This command will start a new Docker container, and the MPLAB X IDE should launch with a graphical interface.
-
-**Note:** Allowing connections to your X server may have security implications. Read about X server security before applying these changes.
-
+[MIT](https://choosealicense.com/licenses/mit/)
