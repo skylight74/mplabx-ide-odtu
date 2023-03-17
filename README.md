@@ -12,6 +12,7 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 1. Clone this repository and navigate to the directory containing the Dockerfile.
 ``` sudo apt-get install x11-xserver-utils ```
+
 2. Build the Docker image:
 ```docker build -t mplabx-ide .```
 
