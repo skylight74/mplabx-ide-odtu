@@ -15,15 +15,44 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 ### Windows
 
-2. Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/) or another X server application for Windows.
+### Getting the DISPLAY variable
 
-3. Launch VcXsrv with the "Multiple Windows" display setting and make a note of the DISPLAY variable (e.g., `192.168.1.100:0.0`).
+#### Windows
 
-### macOS
+1. Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/) or another X server application for Windows.
 
-2. Install [XQuartz](https://www.xquartz.org/) or another X server application for macOS.
+2. Launch VcXsrv with the "Multiple Windows" display setting.
 
-3. Launch XQuartz and make a note of the DISPLAY variable (e.g., `/private/tmp/com.apple.launchd.12345/org.macosforge.xquartz:0`).
+3. Open a Command Prompt or PowerShell window.
+
+4. Determine your computer's IP address. In the Command Prompt or PowerShell window, type the following command:
+
+```ipconfig```
+
+5. Look for the "IPv4 Address" field under your active network adapter. Note the IP address (e.g., `192.168.1.100`).
+
+6. Set your DISPLAY variable by combining your IP address with `:0.0`. For example:
+
+``` set DISPLAY= 192.168.1.100:0.0 ```
+
+Use this value for `<your_display_variable>` when running the Docker container.
+
+#### macOS
+
+1. Install [XQuartz](https://www.xquartz.org/) or another X server application for macOS.
+
+2. Launch XQuartz.
+
+3. Open a Terminal window.
+
+4. Run the following command to get your DISPLAY variable:
+
+```echo $DISPLAY```
+
+This command will output your DISPLAY variable (e.g., `/private/tmp/com.apple.launchd.12345/org.macosforge.xquartz:0`).
+
+Use this value for `<your_display_variable>` when running the Docker container.
+
 
 ## Building the Docker Image
 
@@ -64,3 +93,4 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 This command will start a new Docker container, and the MPLAB X IDE should launch with a graphical interface.
 
 **Note:** Allowing connections to your X server may have security implications. Read about X server security before applying these changes.
+
