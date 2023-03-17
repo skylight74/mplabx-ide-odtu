@@ -10,7 +10,9 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 2. Install the `x11-xserver-utils` package on your host machine:
 
-``` sudo apt-get install x11-xserver-utils ```
+```bash
+sudo apt-get install x11-xserver-utils
+```
 
 ### Windows
 
@@ -24,13 +26,17 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 2. Determine your computer's IP address. In the Command Prompt or PowerShell window, type the following command:
 
-```ipconfig```
+```powershell
+ipconfig
+```
 
 3. Look for the "IPv4 Address" field under your active network adapter. Note the IP address (e.g., `192.168.1.100`).
 
 4. Set your DISPLAY variable by combining your IP address with `:0.0`. For example:
 
-``` set DISPLAY= 192.168.1.100:0.0 ```
+```bash
+set DISPLAY= 192.168.1.100:0.0
+```
 
 Use this value for `<your_display_variable>` when running the Docker container.
 
@@ -46,7 +52,9 @@ Use this value for `<your_display_variable>` when running the Docker container.
 
 3. Run the following command to get your DISPLAY variable:
 
-```echo $DISPLAY```
+```bash
+echo $DISPLAY
+```
 
 This command will output your DISPLAY variable (e.g., `/private/tmp/com.apple.launchd.12345/org.macosforge.xquartz:0`).
 
@@ -59,7 +67,9 @@ Use this value for `<your_display_variable>` when running the Docker container.
 
 2. Build the Docker image:
 
-```docker build -t mplabx-ide .```
+```bash
+docker build -t mplabx-ide .
+```
 
 ## Running the Docker Container
 
@@ -67,27 +77,37 @@ Use this value for `<your_display_variable>` when running the Docker container.
 
 1. Allow connections to your X server from local Docker containers:
 
-``` xhost +local:docker ```
+```bash
+xhost +local:docker 
+```
 
 2. Run the Docker container and share the necessary resources for the graphical interface to work:
 
-```docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide```
+```bash
+docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide
+```
 
 ### Windows
 
 1. Run the Docker container and share the necessary resources for the graphical interface to work. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
 
-```docker run -it --rm -e DISPLAY=<your_display_variable> mplabx-ide```
+```bash
+docker run -it --rm -e DISPLAY=<your_display_variable> mplabx-ide
+```
 
 ### macOS
 
 1. Allow connections to your X server from the Docker container. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
 
-```xhost +$(hostname)```
+```bash
+xhost +$(hostname)
+```
 
 2. Run the Docker container and share the necessary resources for the graphical interface to work. Replace `<your_display_variable>` with the DISPLAY variable noted earlier:
 
-```docker run -it --rm -e DISPLAY=<your_display_variable> -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide```
+```bash
+docker run -it --rm -e DISPLAY=<your_display_variable> -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide
+```
 
 This command will start a new Docker container, and the MPLAB X IDE should launch with a graphical interface.
 
