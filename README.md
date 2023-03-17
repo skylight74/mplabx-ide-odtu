@@ -12,37 +12,39 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 ``` sudo apt-get install x11-xserver-utils ```
 
-### Getting the DISPLAY variable
-
-#### Windows
+### Windows
 
 1. Install [VcXsrv Windows X Server](https://sourceforge.net/projects/vcxsrv/) or another X server application for Windows.
 
 2. Launch VcXsrv with the "Multiple Windows" display setting.
 
-3. Open a Command Prompt or PowerShell window.
+#### Getting the DISPLAY variable
 
-4. Determine your computer's IP address. In the Command Prompt or PowerShell window, type the following command:
+1. Open a Command Prompt or PowerShell window.
+
+2. Determine your computer's IP address. In the Command Prompt or PowerShell window, type the following command:
 
 ```ipconfig```
 
-5. Look for the "IPv4 Address" field under your active network adapter. Note the IP address (e.g., `192.168.1.100`).
+3. Look for the "IPv4 Address" field under your active network adapter. Note the IP address (e.g., `192.168.1.100`).
 
-6. Set your DISPLAY variable by combining your IP address with `:0.0`. For example:
+4. Set your DISPLAY variable by combining your IP address with `:0.0`. For example:
 
 ``` set DISPLAY= 192.168.1.100:0.0 ```
 
 Use this value for `<your_display_variable>` when running the Docker container.
 
-#### macOS
+### macOS
 
 1. Install [XQuartz](https://www.xquartz.org/) or another X server application for macOS.
 
-2. Launch XQuartz.
+#### Getting the DISPLAY variable
 
-3. Open a Terminal window.
+1. Launch XQuartz.
 
-4. Run the following command to get your DISPLAY variable:
+2. Open a Terminal window.
+
+3. Run the following command to get your DISPLAY variable:
 
 ```echo $DISPLAY```
 
