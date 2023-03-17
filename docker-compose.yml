@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  mplab:
+    image: mplabx-ide
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    devices:
+      - "/dev/tnt0:/dev/tnt0"
+    ipc: host
+
+  picsimlab:
+    image: picsimlab
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    devices:
+      - "/dev/tnt1:/dev/tnt2"
+    ipc: host

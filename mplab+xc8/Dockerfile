@@ -4,6 +4,7 @@
 # base image
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
 # metadata
 LABEL base.image="ubuntu:20.04"
 LABEL version="1"
@@ -16,7 +17,12 @@ LABEL maintainer="Mohamed Aly Amin"
 LABEL maintainer.email="contact@mohamedalyamin.com"
 
 USER root
+# Add a user
 RUN useradd -ms /bin/bash mplab
+# add mplab to dialout group
+RUN usermod -a -G dialout mplab
+# add mplab to sudoers
+
 # install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcanberra-gtk-module \
@@ -29,24 +35,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xterm \
     sudo \
     libx11-6 libxi6 libfreetype6 libfontconfig1 ca-certificates
+RUN echo "mplab ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 # install mplab x ide
 RUN wget https://ww1.microchip.com/downloads/en/DeviceDoc/MPLABX-v5.45-linux-installer.tar -O /tmp/MPLABX-v5.45-linux-installer.tar && \
     tar -xvf /tmp/MPLABX-v5.45-linux-installer.tar -C /tmp
 
 # set user to root
 RUN  chmod u+x /tmp/MPLABX-v5.45-linux-installer.sh && \
-     sudo /tmp/MPLABX-v5.45-linux-installer.sh --nox11 -- --mode unattended --unattendedmodeui none \
-     --debuglevel 2 --installdir /opt/microchip/mplabx/v5.45 --8bitmcu 0 --16bitmcu 1 --32bitmcu 0 --othermcu 0  --collectInfo 0 && \
-     rm -rf /tmp/MPLABX-v5.45-linux-installer.tar /tmp/MPLABX-v5.45-linux-installer.sh /tmp/MPLABX-v5.45 /tmp/.installer
+    sudo /tmp/MPLABX-v5.45-linux-installer.sh --nox11 -- --mode unattended --unattendedmodeui none \
+    --debuglevel 2 --installdir /opt/microchip/mplabx/v5.45 --8bitmcu 0 --16bitmcu 1 --32bitmcu 0 --othermcu 0  --collectInfo 0 && \
+    rm -rf /tmp/MPLABX-v5.45-linux-installer.tar /tmp/MPLABX-v5.45-linux-installer.sh /tmp/MPLABX-v5.45 /tmp/.installer
 
 # install xc8 compiler v2.30
-RUN wget https://ww1.microchip.com/downloads/en/DeviceDoc/xc8-v2.30-full-install-linux-x64-installer.run -O /tmp/xc8-v2.30-full-install-linux-installer.run --no-check-certificate && \
+RUN wget https://ww1.microchip.com/downloads/en/DeviceDoc/xc8-v2.30-full-install-linux-x64-installer.run -O /tmp/xc8-v2.30-full-install-linux-installer.run && \
     chmod u+x /tmp/xc8-v2.30-full-install-linux-installer.run && \
     sudo /tmp/xc8-v2.30-full-install-linux-installer.run --mode unattended --unattendedmodeui none --debuglevel 4 --prefix /opt/microchip/xc8/v2.30/ --addtopath 1 --netservername 0 --LicenseType FreeMode && \
     rm -rf /tmp/xc8-v2.30-full-install-linux-installer.run
 
+
+
+# install picsimlab dependencies
+
+
+
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 
 # Add this line before the ENTRYPOINT in your Dockerfile
 COPY launch_mplab.sh /usr/local/bin/
@@ -54,11 +68,15 @@ COPY launch_mplab.sh /usr/local/bin/
 # Make the script executable
 RUN chmod +x /usr/local/bin/launch_mplab.sh
 
-# Add a user
+
+
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
 
 # Switch to the new user
 USER mplab
-
 # Set the working directory
 
 WORKDIR /home/mplab
