@@ -15,13 +15,17 @@ Before running MPLAB X IDE and PICSimLab containers, you need to install tty0tty
 
 1. Clone the tty0tty repository:
 
-```git clone https://github.com/freemed/tty0tty.git```
+```bash 
+git clone https://github.com/freemed/tty0tty.git
+```
 
 2. Follow the installation instructions for your specific OS in the `tty0tty/README.md` file.
 
 3. Add your user to the dialout group:
 
-```sudo usermod -a -G dialout $USER```
+```bash 
+sudo usermod -a -G dialout $USER
+```
 
 
 Log out and log back in for the changes to take effect.
@@ -37,11 +41,15 @@ Log out and log back in for the changes to take effect.
 
 2. Build the Docker images:
 
-```docker-compose build```
+```bash 
+docker-compose build
+```
 
 3. Run the containers using Docker Compose:
 
-```docker-compose up```
+```bash
+docker-compose up
+```
 
 MPLAB X IDE and PICSimLab should now be running in separate containers, connected via virtual serial ports using tty0tty.
 
