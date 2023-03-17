@@ -12,9 +12,6 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
 
 ``` sudo apt-get install x11-xserver-utils ```
 
-
-### Windows
-
 ### Getting the DISPLAY variable
 
 #### Windows
