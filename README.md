@@ -22,6 +22,7 @@ This repository contains a Dockerfile to create a Docker container with MPLAB X 
    ``` xhost +local:docker ```
 
 2. Run the Docker container and share the necessary resources for the graphical interface to work:
+
 ``` docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix mplabx-ide ```
 
 This command will start a new Docker container, and the MPLAB X IDE should launch with a graphical interface.
