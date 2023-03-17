@@ -30,8 +30,7 @@ Log out and log back in for the changes to take effect.
 
 1. Clone this repository:
 
-```git clone <https://github.com/mohamed9974/mplabx-ide-odtu.git>
-    cd mplabx-ide-odtu```
+```git clone <https://github.com/mohamed9974/mplabx-ide-odtu.git> \n cd mplabx-ide-odtu```
 
 2. Build the Docker images:
 
