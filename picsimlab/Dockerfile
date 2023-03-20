@@ -1,6 +1,8 @@
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV NO_AT_BRIDGE 1
+ENV PULSE_SERVER /dev/null
 
 RUN apt-get update && \
     apt-get install -y wget ca-certificates
